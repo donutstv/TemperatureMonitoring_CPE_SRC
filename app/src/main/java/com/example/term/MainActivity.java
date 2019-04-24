@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private String key = "qsl7mPMfXo4gbkG"; //KEY
     private String secret = "dGbb12DP6F3PngaDno0nEZkIe"; //SECRET
     private String alias = "android";
-    private Button button;
+    private Button button1;
+    private Button button2;
 
 
     Handler handler = new Handler() {
@@ -38,16 +39,23 @@ public class MainActivity extends AppCompatActivity {
         MicrogearCallBack callback = new MicrogearCallBack();
         microgear.connect(appid,key,secret,alias);
         microgear.setCallback(callback);
-        microgear.subscribe("Topictest");
+        microgear.subscribe("tester");
 
-        button = findViewById(R.id.button3);
-        button.setOnClickListener(new View.OnClickListener() {
+        button1 = findViewById(R.id.button3);
+        button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                microgear.publish("Topictest", "test1222");
-
+                //microgear.publish("esp32_test", "testaaa");
+                microgear.chat("esp32_test","On");
             }
-
+        });
+        button2 = findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //microgear.publish("esp32_test", "testaaa");
+                microgear.chat("esp32_test","Off");
+            }
         });
     }
     class MicrogearCallBack implements MicrogearEventListener{
