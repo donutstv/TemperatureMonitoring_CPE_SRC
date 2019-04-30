@@ -22,6 +22,7 @@ public class Main2Activity extends AppCompatActivity {
     private String key = "qsl7mPMfXo4gbkG"; //KEY
     private String secret = "dGbb12DP6F3PngaDno0nEZkIe"; //SECRET
     private String alias = "android2";
+    private TextView txt1;
 
     private Button btn;
 
@@ -41,6 +42,9 @@ public class Main2Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        txt1 = findViewById(R.id.textView);
+
         MicrogearCallBack callback = new MicrogearCallBack();
         microgear.connect(appid,key,secret,alias);
         microgear.setCallback(callback);

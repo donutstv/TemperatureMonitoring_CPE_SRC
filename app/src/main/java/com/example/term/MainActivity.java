@@ -21,6 +21,11 @@ public class MainActivity extends AppCompatActivity {
     private String alias = "android";
     private Button button1;
     private Button button2;
+    private TextView txt1;
+    private TextView txt2;
+    private TextView txt3;
+
+
 
 
     Handler handler = new Handler() {
@@ -28,6 +33,50 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             Bundle bundle = msg.getData();
             String string = bundle.getString("myKey");
+
+            try
+            {
+                if(string.indexOf("ldr")!=-1)
+                {
+                    String[] arrOfStr = string.split("\\$");
+                    if(!arrOfStr[1].isEmpty())
+                    {
+                        txt2.setText(arrOfStr[1]);
+
+                    }
+                }
+                else if(string.indexOf("tmp")!=-1)
+                {
+                    String[] arrOfStr = string.split("\\$");
+                    if(!arrOfStr[1].isEmpty())
+                    {
+                        txt1.setText(arrOfStr[1]);
+
+                    }
+
+                }
+                else if(string.indexOf("hud")!=-1)
+                {
+                    String[] arrOfStr = string.split("\\$");
+                    if(!arrOfStr[1].isEmpty())
+                    {
+                        txt3.setText(arrOfStr[1]);
+
+                    }
+                }
+
+                //txt3.setText("test2");
+            }catch (Exception e)
+            {
+
+            }
+
+
+            /*
+            TextView myTextView =
+                    (TextView)findViewById(R.id.textView);
+            myTextView.append(string+"\n");
+            */
         }
     };
 
@@ -36,12 +85,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        txt1 = findViewById(R.id.textView);
+        txt2 = findViewById(R.id.textView2);
+        txt3 = findViewById(R.id.textView3);
+
         MicrogearCallBack callback = new MicrogearCallBack();
         microgear.connect(appid,key,secret,alias);
         microgear.setCallback(callback);
         microgear.subscribe("tester");
 
-        button1 = findViewById(R.id.button3);
+/*        button1 = findViewById(R.id.button3);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,14 +111,14 @@ public class MainActivity extends AppCompatActivity {
                 //microgear.publish("esp32_test", "testaaa");
                 microgear.chat("esp32_test","Off");
             }
-        });
+        });*/
     }
     class MicrogearCallBack implements MicrogearEventListener{
         @Override
         public void onConnect() {
             Message msg = handler.obtainMessage();
             Bundle bundle = new Bundle();
-            bundle.putString("myKey", "Now I'm connected with netpie");
+            //bundle.putString("myKey", "Now I'm connected with netpie");
             msg.setData(bundle);
             handler.sendMessage(msg);
             Log.i("Connected","Now I'm connected with netpie");
@@ -83,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         public void onPresent(String token) {
             Message msg = handler.obtainMessage();
             Bundle bundle = new Bundle();
-            bundle.putString("myKey", "New friend Connect :"+token);
+            //bundle.putString("myKey", "New friend Connect :"+token);
             msg.setData(bundle);
             handler.sendMessage(msg);
             Log.i("present","New friend Connect :"+token);
@@ -93,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         public void onAbsent(String token) {
             Message msg = handler.obtainMessage();
             Bundle bundle = new Bundle();
-            bundle.putString("myKey", "Friend lost :"+token);
+            //bundle.putString("myKey", "Friend lost :"+token);
             msg.setData(bundle);
             handler.sendMessage(msg);
             Log.i("absent","Friend lost :"+token);
@@ -103,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         public void onDisconnect() {
             Message msg = handler.obtainMessage();
             Bundle bundle = new Bundle();
-            bundle.putString("myKey", "Disconnected");
+            //bundle.putString("myKey", "Disconnected");
             msg.setData(bundle);
             handler.sendMessage(msg);
             Log.i("disconnect","Disconnected");
